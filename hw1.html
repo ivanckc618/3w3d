@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+
+
+</style>
+</head>
+
+<body> 
+<h1> Hw1 HW</h1>
+<button id='power'>Power</button>
+<button id='mode'>mode</button>
+<div id="tree" style="position:absolute;width:70vw; height: 100vh;">
+  <img  src="background.jpg" style="width: 55vw; height: 100vh;">
+  
+  <img  src="man.jfif"  style="position:absolute;left:35vw; width:40vw;height:100vh;">
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
+
+
+<script>
+
+var powerOn = true;
+var easy=true;
+
+$('#power').click (function() {
+  powerOn = !powerOn;
+  
+  if (powerOn === true) {
+    
+     lights.forEach ( function(newlight) {newlight.toggle();} );
+  }
+  else {
+    lights.forEach ( function(newlight) {newlight.toggle();} );
+  }
+
+});
+
+$('#mode').click (function() {
+  easy = !easy;  
+});
+
+class light {
+
+  constructor(name) {
+    
+    this.name = name + light.id++;
+  
+    this.myStatus = true;
+    
+    let el = document.createElement ('div');
+    el.id = this.name;
+    let bkgd = document.getElementById('tree');
+    bkgd.appendChild(el);
+    this.hue = Math.random()*360;
+    
+    // styles
+   
+    el.setAttribute ("style", `background-color: hsl(${this.hue}, 90%, 50%); width:50px;height:50px;border-radius:30px;z-index:1`);
+   
+    this.top = 0.3;
+    el.style.position = "absolute";
+    el.style.left = left+ '%'; 
+    el.style.top = light.id*10 + '%';
+    left=left+5;
+
+  }
+
+  toggle() {
+    this.myStatus = ! this.myStatus;
+    if (this.myStatus === true) {
+      $('#'+this.name).css('backgroundColor', `hsl(${this.hue},90%,80%)`);
+      
+    } else {
+      $('#'+this.name).css('backgroundColor', `hsl(${this.hue},90%,24%)`);
+      
+    }
+    if (powerOn) {
+      this.update();
+    }
+    
+    if(!powerOn){
+      $('#'+this.name).css('backgroundColor', `hsl(0, 0%, 24%)`);
+    }
+    
+  }
+
+  update() {
+    var randomtime=1000+Math.random()*1000;
+    if(easy === true){
+      setTimeout (()=>{ this.toggle(); }, 500);
+    }
+    else {
+      setTimeout (()=>{ this.toggle(); }, randomtime);
+    }
+  }
+}
+
+left = 10;
+light.id=1;
+lights = [];
+
+for (let i = 0; i < 4; i++) {
+   let newlight = new light ('light');
+   lights.push (newlight);
+}
+
+lights.forEach ( function(newlight){newlight.toggle();}  );
+
+
+</script>
+</body>
+
+</html>
